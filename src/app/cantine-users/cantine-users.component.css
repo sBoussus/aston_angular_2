@@ -1,0 +1,14 @@
+.user-card {
+    max-width: 400px;
+}
+
+.user-card-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-remove-button {
+    margin: 0 5px;
+}

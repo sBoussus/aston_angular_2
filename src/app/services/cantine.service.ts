@@ -18,9 +18,16 @@ export class CantineService {
     return this.http.get(API + '/user/findall', options);
   }
 
-  updateUser(userId: number, options: any): any {
-    return this.http.get(API + '/user/update/' + '/' + userId , options);
+  getUserById(userId: number, options: any): any {
+    return this.http.get(API + '/user/find' + '/' + userId, options);
   }
 
+  creditUser(user: any, credentials, options: any): any {
+    return this.http.post(API + '/user/credit' + '/' + user.id, credentials, options);
+  }
+
+  debitUser(user: any, options: any): any {
+    return this.http.post(API + '/user/debit' + '/' + user.id, user, options);
+  }
 
 }

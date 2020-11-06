@@ -6,15 +6,17 @@
     
     <div *ngIf="token">
         <button class="btn btn-secondary"  (click)="getUsers()">Afficher la liste des utilisateurs</button>
-        <div class="card" *ngFor="let user of users">
-            <div class="card-body">
-                <span>{{ user.name }} - {{ user.firstname }} - {{ user.wallet }} €</span>
+        <div class="card user-card" *ngFor="let user of users">
+            <div class="card-body user-card-body">
+                <div><span>{{ user.name }} - {{ user.firstname }} - {{ user.wallet }} €</span></div>
                 <div *ngIf="editMode === user.id">
-                    <button class="btn btn-secondary">+</button>
-                    <button class="btn btn-secondary">-</button>
+                    <button class="btn btn-secondary add-remove-button" (click)="updateUserWallet(user.id)">+</button>
+                    <button class="btn btn-secondary add-remove-button" (click)="updateUserWallet(user.id)">-</button>
                 </div>
-                <button class="btn btn-secondary" (click)="launchEditMode(user.id)" *ngIf="!editMode">Éditer</button>
-                <button class="btn btn-secondary" *ngIf="editMode">Valider</button>
+                <div>
+                    <button class="btn btn-secondary" (click)="launchEditMode(user.id)" *ngIf="!editMode">Éditer</button>
+                    <button class="btn btn-secondary" (click)="closeEditMode()" *ngIf="editMode === user.id">Quitter</button>
+                </div>
             </div>
         </div>
     </div>
