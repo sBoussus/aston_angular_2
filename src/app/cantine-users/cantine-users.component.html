@@ -2,13 +2,19 @@
 
     <h1>Liste des utilisateurs</h1>
 
-    <button class="btn btn-secondary"  (click)="startLogin()">Se connecter</button>
+    <button class="btn btn-secondary"  (click)="startLogin()" *ngIf="!token">Lancer la connexion</button>
     
-    <div>
+    <div *ngIf="token">
         <button class="btn btn-secondary"  (click)="getUsers()">Afficher la liste des utilisateurs</button>
         <div class="card" *ngFor="let user of users">
             <div class="card-body">
-                {{ user.name }} - {{ user.firstname }}
+                <span>{{ user.name }} - {{ user.firstname }} - {{ user.wallet }} €</span>
+                <div *ngIf="editMode === user.id">
+                    <button class="btn btn-secondary">+</button>
+                    <button class="btn btn-secondary">-</button>
+                </div>
+                <button class="btn btn-secondary" (click)="launchEditMode(user.id)" *ngIf="!editMode">Éditer</button>
+                <button class="btn btn-secondary" *ngIf="editMode">Valider</button>
             </div>
         </div>
     </div>

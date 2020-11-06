@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class CantineUsersComponent implements OnInit {
   token: string | null = null;
   users: any[] = [];
+  editMode: number | null = null;
 
   constructor(private cantineService: CantineService) { }
 
@@ -23,21 +24,26 @@ export class CantineUsersComponent implements OnInit {
     this.cantineService
       .login(credentials)
       .subscribe((res: any) => {
-        this.token = res.headers.get("Authorization");
+        this.token = res.headers.get('Authorization');
         console.log(this.token);
       });
   }
 
   getUsers() {
     let options = {
-      headers: { "Authorization": this.token }
+      headers: { 'Authorization': this.token }
     };
     this.cantineService
       .getUsers(options)
       .subscribe((res: any) => {
         this.users = res;
-      })
+      });
 
+  }
+
+  launchEditMode(userId: number) {
+    console.log(userId);
+    this.editMode = userId;
   }
 
 
