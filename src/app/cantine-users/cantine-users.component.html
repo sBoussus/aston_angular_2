@@ -1,0 +1,17 @@
+<div class="container">
+
+    <h1>Liste des utilisateurs</h1>
+
+    <button class="btn btn-secondary"  (click)="startLogin()">Se connecter</button>
+    
+    <div>
+        <button class="btn btn-secondary"  (click)="getUsers()">Afficher la liste des utilisateurs</button>
+        <div class="card" *ngFor="let user of users">
+            <div class="card-body">
+                {{ user.name }} - {{ user.firstname }}
+            </div>
+        </div>
+    </div>
+
+</div>
+
