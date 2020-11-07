@@ -5,18 +5,20 @@
     <button class="btn btn-secondary"  (click)="startLogin()" *ngIf="!token">Lancer la connexion</button>
     
     <div *ngIf="token">
-        <button class="btn btn-secondary"  (click)="loadUsers()">Afficher la liste des utilisateurs</button>
         <div class="card user-card" *ngFor="let user of users">
             <div class="card-body user-card-body">
                 <div><span>{{ user.name }} - {{ user.firstname }} - {{ user.wallet }} €</span></div>
                 <div *ngIf="editMode === user.id">
                     <button class="btn btn-secondary add-remove-button" (click)="updateUserWallet(user.id, 'credit')">+</button>
-                    <button class="btn btn-secondary add-remove-button" (click)="updateUserWallet(user.id, 'debit')">-</button>
+                    <button class="btn btn-secondary add-remove-button" (click)="updateUserWallet(user.id, 'debit')" *ngIf="user.wallet >= 10">-</button>
                 </div>
                 <div>
                     <button class="btn btn-secondary" (click)="launchEditMode(user.id)" *ngIf="!editMode">Éditer</button>
-                    <button class="btn btn-secondary" (click)="closeEditMode()" *ngIf="editMode === user.id">Quitter</button>
+                    <button class="btn btn-secondary" (click)="closeEditMode(user.id)" *ngIf="editMode === user.id">Quitter</button>
                 </div>
+            </div>
+            <div>
+                <p *ngIf="messageAfter.userId === user.id" class="messageAfter" [ngStyle]="{'color': messageAfter.color}">{{ messageAfter.content }}</p>
             </div>
         </div>
     </div>

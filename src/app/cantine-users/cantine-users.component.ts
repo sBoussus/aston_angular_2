@@ -11,8 +11,8 @@ export class CantineUsersComponent implements OnInit {
   token: string | null = null;
   users: any[] = [];
   editMode: number | null = null;
-  // private _player: any;
-  // player: any;
+  totalAmount: number = 0;
+  messageAfter: any = {userId: null, content: '', color: 'black'};
 
   constructor(private cantineService: CantineService) { }
 
@@ -29,6 +29,7 @@ export class CantineUsersComponent implements OnInit {
       .subscribe((res: any) => {
         this.token = res.headers.get('Authorization');
         console.log(this.token);
+        this.loadUsers();
       });
   }
 
@@ -48,8 +49,13 @@ export class CantineUsersComponent implements OnInit {
     this.editMode = userId;
   }
 
-  closeEditMode() {
+  closeEditMode(userId: number) {
+    this.displayMessage(userId);
+    this.totalAmount = 0;
     this.editMode = null;
+    setTimeout(
+      () => this.messageAfter = {userId: null, content: '', color: 'black'}, 3000
+    );
   }
 
   updateUserWallet(userId: number, operation: string) {
@@ -62,9 +68,31 @@ export class CantineUsersComponent implements OnInit {
     this.cantineService
       .updateUserWallet(operation, userId, amount, options)
       .subscribe(res => {
+        if (operation === 'credit') {
+          this.totalAmount += 10;
+        } else {
+          this.totalAmount -= 10;
+        }
         this.loadUsers();
       });
 
+  }
+
+  displayMessage(userId: number) {
+    let message: string  = 'Le comte n\'a pas été crédité.';
+    let color: string = 'blue';
+    if (this.totalAmount > 0) {
+      message = 'Le comte a été crédité de ' + this.totalAmount + ' €.';
+      color = 'green';
+    } else if (this.totalAmount < 0) {
+      message = 'Le comte a été débité de ' + Math.abs(this.totalAmount) + ' €.';
+      color = 'red';
+    }
+    this.messageAfter = {
+      userId: userId,
+      content: message,
+      color: color
+    }
   }
 
 
