@@ -32,7 +32,7 @@ export class CantineUsersComponent implements OnInit {
       });
   }
 
-  getUsers() {
+  loadUsers() {
     let options = {
       headers: { 'Authorization': this.token }
     };
@@ -52,36 +52,18 @@ export class CantineUsersComponent implements OnInit {
     this.editMode = null;
   }
 
-  updateUserWallet(userId: number) {
+  updateUserWallet(userId: number, operation: string) {
 
     let options = {
       headers: { 'Authorization': this.token }
     };
 
+    let amount: number = 10;
     this.cantineService
-      .getUserById(userId, options)
-      .subscribe((user: any) => {
-        user.wallet = user.wallet + 10;
-        console.log(user.wallet);
-        let options2 = {
-          headers: { 'Authorization': this.token, 'amount': 100 }
-        };
-        let credentials = {
-          'amount': 100,
-        };
-        this.cantineService
-          .creditUser(user, credentials, options2)
-          .subscribe(res => {
-            console.log(res);
-            // this.getUsers();
-          });
+      .updateUserWallet(operation, userId, amount, options)
+      .subscribe(res => {
+        this.loadUsers();
       });
-
-    // this.cantineService
-    //   .updateUser(userId, editedUser, options)
-    //   .subscribe(res => {
-    //     this.getUsers();
-    //   });
 
   }
 
